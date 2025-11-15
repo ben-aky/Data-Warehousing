@@ -1,0 +1,41 @@
+Q1:
+db.Doctors.find({}, {  _id: 0, name: 1, specialty: 1 })
+
+Q2:
+db.Patients.find({ gender: "Female", age: { $lt: 30 } }, { _id: 0, name: 1, age: 1 })
+
+Q3:
+db.Appointments.find({ status: { $in: ["Scheduled", "Pending"] } }, { _id: 0, appointment_id: 1, status: 1 })
+
+Q4:
+db.Doctors.find({ specialty: { $in: ["Cardiology", "Oncology"] }, experience_years: { $gte: 10 } }, { _id: 0, name: 1, specialty: 1, experience_years: 1 })
+
+Q5:
+db.Patients.find({ gender: "Female", $or: [ { age: { $gte: 65 } }, { age: { $lte: 12 } } ] }, { _id: 0, name: 1, age: 1 })
+
+Q6:
+db.Patients.find({ age: { $gt: 50 }, $or: [ { phone_number: { $exists: false } }, { phone_number: null } ] }, { _id: 0, name: 1, age: 1, phone_number: 1 })
+
+Q7:
+db.Appointments.find({ status: { $in: ["Completed", "Cancelled"] }, doctor_id: { $exists: true } }, { _id: 0, appointment_id: 1, status: 1, doctor_id: 1 })
+
+Q8:
+db.Patients.find({ age: { $not: { $lt: 18 } , $not: { $gt: 80 } } }, { _id: 0, name: 1, age: 1 })
+
+Q9a:
+db.Doctors.find({},{ _id: 0, name: 1 }).sort({ name: 1 }).limit(5)
+
+Q9b:
+db.Doctors.find({},{ _id: 0, name: 1 }).sort({ name: 1 }).skip(5).limit(3)
+
+Q10:
+db.Appointments.find({ status: "Completed", doctor_id: UUID('ca21c632-224a-489a-b9de-9cc61a668824') }, { _id: 0, appointment_id: 1, status: 1, doctor_id: 1 })
+
+Q11a:
+db.Patients.find({ insurance: { $exists: true } }, { _id: 0, name: 1, insurance: 1 })
+
+Q11b:
+db.Patients.find({ insurance: { $exists: false } }, { _id: 0, name: 1, insurance: 1 })
+
+Q11c:
+db.Patients.find({ insurance: null }, { _id: 0, name: 1, insurance: 1 })

@@ -1,0 +1,38 @@
+Task 0:
+CREATE DATABASE EVChargingDB
+
+Task 1:
+CREATE TABLE EVDetails (EV_ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL, VIN VARCHAR(20) NOT NULL, Make VARCHAR(50) NOT NULL, Model VARCHAR(50) NOT NULL, Year INT NOT NULL, ElectricRange INT NOT NULL)
+
+Task 2:
+CREATE TABLE ChargingStation (StationID INT AUTO_INCREMENT PRIMARY KEY NOT NULL, StationName VARCHAR(100) NOT NULL, City VARCHAR(50) NOT NULL, State CHAR(2) NOT NULL, ZIP VARCHAR(10) NOT NULL, Level1Num INT NOT NULL DEFAULT 0, Level2Num INT NOT NULL DEFAULT 0, DCFastNum INT NOT NULL DEFAULT 0, EVConnectorType VARCHAR(50) NOT NULL, EV_ID INT, FOREIGN KEY (EV_ID) REFERENCES EVDetails (EV_ID))
+
+Task 3:
+SELECT CONCAT(Make, " ", Model) AS MakeModel FROM EVDetails LIMIT 5;
+
+Task 4:
+SELECT EV_ID, ROUND(ElectricRange/2) AS HalfRange FROM EVDetails LIMIT 5;
+
+Task 5:
+SELECT e.EV_ID, e.Make, e.Model, s.StationName, s.City, s.State FROM EVDetails AS e INNER JOIN ChargingStation AS s ON e.EV_ID=s.EV_ID LIMIT 5;
+
+Task 6:
+SELECT e.*, s.* FROM EVDetails AS e LEFT JOIN ChargingStation AS s ON e.EV_ID=s.EV_ID LIMIT 5;
+
+Task 7:
+SELECT e.*, s.* FROM EVDetails AS e RIGHT JOIN ChargingStation AS s ON e.EV_ID=s.EV_ID LIMIT 5;
+
+Task 8:
+SELECT * FROM `EVDetails` ORDER BY EV_ID DESC LIMIT 5;
+
+Task 9:
+SELECT * FROM EVDetails WHERE Make IN ("Tesla", "BMW", "Nissan") LIMIT 5;
+
+Task 10:
+SELECT * FROM EVDetails WHERE LEFT(VIN, 2)>RIGHT(VIN, 2) LIMIT 5;
+
+Task 11:
+SELECT e.Make, e.Model, e.Year, ROUND(e.ElectricRange/2) AS HalfRange, s.EVConnectorType FROM EVDetails AS e INNER JOIN ChargingStation AS s ON e.EV_ID=s.EV_ID WHERE e.Year>2018 AND e.ElectricRange>200 AND s.EVConnectorType IN ("Tesla", "CCS", "CHAdeMO") ORDER BY e.Year DESC LIMIT 5
+
+Task 12:
+SELECT StationName, (Level1Num + Level2Num + DCFastNum) AS TotalConnectors FROM ChargingStation WHERE (Level1Num + Level2Num + DCFastNum) > 10 ORDER BY TotalConnectors DESC LIMIT 5
